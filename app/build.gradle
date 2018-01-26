@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+//apply tinker插件
+apply plugin: 'com.tencent.tinker.patch'
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -9,35 +11,182 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+
     }
 
     signingConfigs {
         release {
-            storeFile file('keystore.jks')
-            storePassword '123456'
-            keyAlias 'wxmh'
-            keyPassword '123456'
+            try {
+                storeFile file('keystore.jks')
+                storePassword '123456'
+                keyAlias 'wxmh'
+                keyPassword '123456'
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
         }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            minifyEnabled true
             signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
         debug {
+            debuggable true
+            minifyEnabled true
             signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation  'com.android.support:appcompat-v7:26.1.0'
+    implementation  'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    provided('com.tencent.tinker:tinker-android-anno:1.9.1')
+    //tinker's main Android lib
+    compile('com.tencent.tinker:tinker-android-lib:1.9.1')
+    compile ('com.android.support:multidex:1.0.1')
+
 }
+
+def bakPath = file("${buildDir}/bakApk/")
+
+ext {
+
+    tinkerEnabled = true
+    tinkerOldApkPath = "${bakPath}/app-debug.apk"
+    //proguard mapping file to build patch apk
+    tinkerApplyMappingPath = "${bakPath}/mapping.txt"
+    //resource R.txt to build patch apk, must input if there is resource changed
+    tinkerApplyResourcePath = "${bakPath}/R.txt"
+
+}
+def copyFileToBackUpPatchFolder(String sourceFile) {
+    def backUpForPatch = file("${buildDir}/backUpForPatch/")
+
+    copy {
+        from sourceFile
+        into backUpForPatch
+    }
+}
+
+def getOldApkPath() {
+    def backUpForPatch = file("${buildDir}/backUpForPatch/")
+    println "hot_fix_test getOldApkPath exe"
+
+    if (new File(ext.tinkerOldApkPath).exists()) {
+        copyFileToBackUpPatchFolder(ext.tinkerOldApkPath)
+    }
+    return "${backUpForPatch}/app-debug.apk"//ext.tinkerOldApkPath
+}
+def getApplyMappingPath() {
+        println "hot_fix_test getApplyMappingPath exe"
+
+    def backUpForPatch = file("${buildDir}/backUpForPatch/")
+
+    if (new File(ext.tinkerApplyMappingPath).exists()) {
+        copyFileToBackUpPatchFolder(ext.tinkerApplyMappingPath)
+    }
+    return "${backUpForPatch}/mapping.txt"//ext.tinkerApplyMappingPath
+}
+def getApplyResourceMappingPath() {
+    println "hot_fix_test getApplyResourceMappingPath exe"
+
+    def backUpForPatch = file("${buildDir}/backUpForPatch/")
+
+    if (new File(ext.tinkerApplyResourcePath).exists()) {
+        copyFileToBackUpPatchFolder(ext.tinkerApplyResourcePath)
+    }
+    return  "${backUpForPatch}/R.txt"//ext.tinkerApplyResourcePath
+}
+
+if (ext.tinkerEnabled) {
+    tinkerPatch {
+        oldApk = getOldApkPath()
+        ignoreWarning = false
+        useSign = true
+
+        buildConfig{
+            tinkerId = "10086_86001"
+            applyMapping = getApplyMappingPath()
+            applyResourceMapping = getApplyResourceMappingPath()
+        }
+
+        lib {
+
+            pattern = ["lib/armeabi/*.so"]
+        }
+
+        res {
+
+            pattern = ["res/*", "assets/*", "resources.arsc", "AndroidManifest.xml"]
+
+            ignoreChange = ["assetsmple_meta.txt"]
+
+            largeModSize = 100
+        }
+
+        sevenZip {
+
+            zipArtifact = "com.tencent.mm:SevenZip:1.1.10"
+        }
+
+        dex {
+
+            dexMode = "jar"
+
+            pattern = ["classes*.dex",
+                       "assetscondary-dex-?.jar"]
+
+            loader = ["com.tencent.tinker.loader.*",
+                      "com.tencent.tinker.*",
+                      "com.example.fanguangcheng.hotfixdemo.SampleApplication"
+            ]
+        }
+
+    }
+}
+
+android.applicationVariants.all { variant ->
+    /**
+     * task type, you want to bak
+     */
+    def taskName = variant.name
+
+    tasks.all {
+        if ("assemble${taskName.capitalize()}".equalsIgnoreCase(it.name)) {
+            it.doLast {
+                copy {
+                    def date = new Date().format("MMdd-HH-mm-ss")
+                    from "${buildDir}/outputs/apk/${taskName}/${project.getName()}-${taskName}.apk"
+                    into bakPath
+//                    rename { String fileName ->
+//                        fileName.replace("${project.getName()}-${taskName}.apk", "${project.getName()}-${taskName}-${date}.apk")
+//                    }
+
+                    from "${buildDir}/outputs/mapping/${taskName}/mapping.txt"
+                    into bakPath
+//                    rename { String fileName ->
+//                        fileName.replace("mapping.txt", "${project.getName()}-${taskName}-${date}-mapping.txt")
+//                    }
+
+                    from "${buildDir}/intermediates/symbols/${taskName}/R.txt"
+                    into bakPath
+//                    rename { String fileName ->
+//                        fileName.replace("R.txt", "${project.getName()}-${taskName}-${date}-R.txt")
+//                    }
+
+                }
+            }
+        }
+    }
+}
+
