@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.husor.android.hbpatch">
+
+    <application>
+        <service
+            android:name=".app.service.TinkerServerResultService"
+            android:exported="false"/>
+    </application>
+
+</manifest>
