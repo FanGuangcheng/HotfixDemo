@@ -8,7 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by fanchao on 17/4/17.
+ * Created by fanguanggcheng on 2018/1/30.
  */
 public final class SyncResponse {
 

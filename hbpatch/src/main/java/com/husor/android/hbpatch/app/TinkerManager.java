@@ -20,7 +20,7 @@ import com.tencent.tinker.lib.util.UpgradePatchRetry;
 import com.tencent.tinker.loader.app.ApplicationLike;
 
 /**
- * Created by fanchao on 17/4/14.
+ * Created by fanguanggcheng on 2018/1/30.
  */
 public class TinkerManager {
 

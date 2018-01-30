@@ -7,7 +7,7 @@ package com.husor.android.hbpatch.app.callback;
 import java.io.File;
 
 /**
- * Created by fanchao on 17/4/17.
+ * Created by fanguanggcheng on 2018/1/30.
  */
 public interface PatchRequestCallback {
 

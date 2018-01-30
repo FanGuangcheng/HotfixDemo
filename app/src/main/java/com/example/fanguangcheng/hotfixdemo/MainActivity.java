@@ -23,28 +23,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        btn_click = findViewById(R.id.btn_click);
-//        btn_click.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/patch_signed.apk");
-//                Log.d("hotfix", "patch file is exist : " + file.exists());
-//
-//                Toast.makeText(MainActivity.this, "1 + 1 = ? " + 44444, Toast.LENGTH_LONG).show();
-//
-//                if (!file.exists()) {
-//                    Log.d("hotfix", "file is not exist just return!");
-//                    return;
-//                }
-//
-//                //进行补丁的操作
-//                TinkerInstaller.onReceiveUpgradePatch(MainActivity.this,
-//                        Environment.getExternalStorageDirectory().getAbsolutePath()+"/patch_signed.apk");
-//            }
-//        });
-//
-//        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/patch_signed.apk");
-//        Log.d("hotfix", "patch file is exist : " + file.exists());
         Button requestPatchButton = (Button) findViewById(R.id.requestPatch);
         requestPatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +36,11 @@ public class MainActivity extends AppCompatActivity {
         cleanPatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Tinker.with(getApplicationContext()).cleanPatch();
+
+//                Tinker.with(getApplicationContext()).cleanPatch();
+                //进行补丁的操作
+                TinkerInstaller.onReceiveUpgradePatch(MainActivity.this,
+                        Environment.getExternalStorageDirectory().getAbsolutePath()+"/patch_signed.apk");
             }
         });
 
@@ -66,8 +48,9 @@ public class MainActivity extends AppCompatActivity {
         killSelfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShareTinkerInternals.killAllOtherProcess(getApplicationContext());
-                android.os.Process.killProcess(android.os.Process.myPid());
+                Toast.makeText(MainActivity.this, "patch success!~~~~~ ", Toast.LENGTH_LONG).show();
+//                ShareTinkerInternals.killAllOtherProcess(getApplicationContext());
+//                android.os.Process.killProcess(android.os.Process.myPid());
             }
         });
     }

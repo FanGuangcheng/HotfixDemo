@@ -26,7 +26,7 @@ import java.io.InputStream;
 import static com.husor.android.hbpatch.server.model.response.SyncResponse.fromJson;
 
 /**
- * Created by fanchao on 17/4/17.
+ * Created by fanguanggcheng on 2018/1/30.
  */
 public class TinkerClientAPI {
 

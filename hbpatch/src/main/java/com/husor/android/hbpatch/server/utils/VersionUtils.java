@@ -19,7 +19,7 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
- * Created by fanchao on 17/4/17.
+ * Created by fanguanggcheng on 2018/1/30.
  */
 public final class VersionUtils {
 

@@ -16,7 +16,7 @@ import com.tencent.tinker.lib.util.TinkerLog;
 import com.tencent.tinker.loader.shareutil.ShareTinkerInternals;
 
 /**
- * Created by fanchao on 17/4/17.
+ * Created by fanguanggcheng on 2018/1/30.
  */
 public class TinkerServerClient {
     private static final String TAG = "Tinker.ServerClient";

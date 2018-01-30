@@ -23,7 +23,7 @@ import com.tencent.tinker.loader.shareutil.ShareTinkerInternals;
 import java.io.File;
 
 /**
- * Created by fanchao on 17/4/17.
+ * Created by fanguanggcheng on 2018/1/30.
  */
 public class DefaultPatchRequestCallback implements PatchRequestCallback {
     private static final String TAG = "Tinker.DefaultPatchRequestCallback";

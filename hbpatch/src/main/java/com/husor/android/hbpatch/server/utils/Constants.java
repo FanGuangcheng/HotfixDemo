@@ -5,7 +5,7 @@
 package com.husor.android.hbpatch.server.utils;
 
 /**
- * Created by fanchao on 17/4/17.
+ * Created by fanguanggcheng on 2018/1/30.
  */
 public class Constants {
     public static final String HOST_URL = "http://sapi.beibei.com";
