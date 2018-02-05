@@ -7,16 +7,17 @@ package com.netease.android.patch.server.urlconnection;
 import com.netease.android.patch.server.model.DataFetcher;
 import com.netease.android.patch.server.model.TinkerClientUrl;
 import com.netease.android.patch.server.utils.Preconditions;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import com.tencent.tinker.lib.util.TinkerLog;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.Executor;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 /**
  * Created by fanguanggcheng on 2018/1/30.
  */
@@ -26,6 +27,7 @@ public class UrlConnectionStreamFetcher implements DataFetcher<InputStream> {
     private final TinkerClientUrl tkUrl;
     private final Executor executor;
     private InputStream stream;
+
 
     public UrlConnectionStreamFetcher(Executor executor, TinkerClientUrl tkUrl) {
         this.tkUrl = tkUrl;
@@ -90,12 +92,12 @@ public class UrlConnectionStreamFetcher implements DataFetcher<InputStream> {
 
                 client.newCall(request).enqueue(new Callback() {
                     @Override
-                    public void onFailure(Request request, IOException e) {
+                    public void onFailure(Call call, IOException e) {
                         callback.onLoadFailed(e);
                     }
 
                     @Override
-                    public void onResponse(Response response) throws IOException {
+                    public void onResponse(Call call, Response response) throws IOException {
                         TinkerLog.d(TAG, "response code " + response.code() + " msg: " + response.message());
                         callback.onDataReady(response.body().byteStream());
                     }
