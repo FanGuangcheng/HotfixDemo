@@ -10,6 +10,8 @@ import android.widget.Toast;
 import com.netease.android.patch.app.TinkerServerManager;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
     Button btn_click;
 
@@ -32,8 +34,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/patch_signed.apk");
+                if (!file.exists()) {
+                    Toast.makeText(MainActivity.this, "file not exist just return !~ ", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
 //                Tinker.with(getApplicationContext()).cleanPatch();
                 //进行补丁的操作
+                Toast.makeText(MainActivity.this, "install patch !~ ", Toast.LENGTH_LONG).show();
                 TinkerInstaller.onReceiveUpgradePatch(MainActivity.this,
                         Environment.getExternalStorageDirectory().getAbsolutePath()+"/patch_signed.apk");
             }
@@ -43,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         killSelfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "patch success!~~~~~ ", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "new new hhhhhh patch success!~~~~~ ", Toast.LENGTH_LONG).show();
 //                ShareTinkerInternals.killAllOtherProcess(getApplicationContext());
 //                android.os.Process.killProcess(android.os.Process.myPid());
             }
