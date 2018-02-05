@@ -3,17 +3,12 @@ package com.example.fanguangcheng.hotfixdemo;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.husor.android.hbpatch.app.TinkerServerManager;
-import com.tencent.tinker.lib.tinker.Tinker;
+import com.netease.android.patch.app.TinkerServerManager;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
-import com.tencent.tinker.loader.shareutil.ShareTinkerInternals;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     Button btn_click;

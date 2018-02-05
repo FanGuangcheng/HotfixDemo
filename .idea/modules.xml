@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HotfixDemo.iml" filepath="$PROJECT_DIR$/HotfixDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WMPatch/WMPatch.iml" filepath="$PROJECT_DIR$/WMPatch/WMPatch.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/hbpatch/hbpatch.iml" filepath="$PROJECT_DIR$/hbpatch/hbpatch.iml" />
     </modules>
   </component>
 </project>

@@ -59,7 +59,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     provided("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
     compile('com.tencent.tinker:tinker-android-lib:1.9.2')
-    compile project(':hbpatch')
+    compile project(':WMPatch')
     compile "com.android.support:multidex:1.0.1"
 //    compile 'com.squareup.okhttp:okhttp:2.6.0'
 

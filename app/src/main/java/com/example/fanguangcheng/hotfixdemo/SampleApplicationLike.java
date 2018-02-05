@@ -1,18 +1,15 @@
 package com.example.fanguangcheng.hotfixdemo;
 
-import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.multidex.MultiDex;
 
-import com.husor.android.hbpatch.app.TinkerManager;
-import com.husor.android.hbpatch.app.TinkerServerManager;
-import com.husor.android.hbpatch.app.reporter.TinkerServiceReporter;
+import com.netease.android.patch.app.TinkerManager;
+import com.netease.android.patch.app.TinkerServerManager;
+import com.netease.android.patch.app.reporter.TinkerServiceReporter;
 import com.tencent.tinker.anno.DefaultLifeCycle;
 import com.tencent.tinker.lib.tinker.Tinker;
-import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.tencent.tinker.lib.util.TinkerLog;
 import com.tencent.tinker.loader.app.DefaultApplicationLike;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
