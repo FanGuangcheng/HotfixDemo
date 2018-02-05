@@ -46,6 +46,7 @@ public final class ServerUtils {
             }
         } finally {
             try {
+                fileOutput.flush();
                 fileOutput.close();
             } catch (IOException ignored) {
                 // ignored
