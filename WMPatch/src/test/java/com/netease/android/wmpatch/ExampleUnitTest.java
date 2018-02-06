@@ -1,4 +1,4 @@
-package com.husor.android.wmpatch;
+package com.netease.android.wmpatch;
 
 import org.junit.Test;
 

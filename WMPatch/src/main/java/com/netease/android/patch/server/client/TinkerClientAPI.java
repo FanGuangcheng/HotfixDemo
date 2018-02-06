@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2017 Husor Inc.
+ * Copyright (C) 1997-2018 NetEase Inc.
  * All Rights Reserved.
  */
 package com.netease.android.patch.server.client;

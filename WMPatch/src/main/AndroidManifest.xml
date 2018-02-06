@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.husor.android.wmpatch">
+    package="com.netease.android.wmpatch">
 
     <application>
         <service

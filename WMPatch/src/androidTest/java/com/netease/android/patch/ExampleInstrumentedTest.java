@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.husor.android.hbpatch.test", appContext.getPackageName());
+        assertEquals("com.netease.android.hbpatch.test", appContext.getPackageName());
     }
 }
