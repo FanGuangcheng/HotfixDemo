@@ -24,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
         requestPatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String json = "{\"e\":1,\"url\":\"http:\\/\\/mzs0.hucdn.com\\/app\\/hotfix\\/beibei_android_v3\\/v_5.8.03_32.so\",\"v\":\"32\"}";
-                TinkerServerManager.checkTinkerUpdate(true, json);
+//                String json = "{\"e\":1,\"url\":\"http:\\/\\/mzs0.hucdn.com\\/app\\/hotfix\\/beibei_android_v3\\/v_5.8.03_32.so\",\"v\":\"32\"}";
+//                TinkerServerManager.checkTinkerUpdate(true, json);
+                TinkerServerManager.checkTinkerUpdate(true);
             }
         });
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         killSelfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "new new hhhhhh patch success!~~~~~ ", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "666666 network load patch test  use hot fix hhhhhh !~~~~~ ", Toast.LENGTH_LONG).show();
 //                ShareTinkerInternals.killAllOtherProcess(getApplicationContext());
 //                android.os.Process.killProcess(android.os.Process.myPid());
             }

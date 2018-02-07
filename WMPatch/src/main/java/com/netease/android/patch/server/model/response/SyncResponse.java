@@ -12,11 +12,11 @@ import org.json.JSONObject;
  */
 public final class SyncResponse {
 
-    private static final String KEY_VERSION = "v";
-    private static final String KEY_GRAY = "g";
-    private static final String KEY_CONDITIONS = "c";
-    private static final String KEY_PAUSE = "p";
-    private static final String KEY_ROLLBACK = "e";
+    private static final String KEY_VERSION = "patch_version";
+    private static final String KEY_GRAY = "gray";
+    private static final String KEY_CONDITIONS = "conditions";
+    private static final String KEY_PAUSE = "pause";
+    private static final String KEY_ROLLBACK = "rollback";
     private static final String KEY_URL = "url";
 
     public final String version;

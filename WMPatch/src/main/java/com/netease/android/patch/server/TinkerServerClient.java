@@ -35,10 +35,10 @@ public class TinkerServerClient {
     private final TinkerClientAPI clientAPI;
 
     public TinkerServerClient(Context context, Tinker tinker, String appKey, String appVersion,
-                              Boolean debug, PatchRequestCallback patchRequestCallback) {
+                              String channel, Boolean debug, PatchRequestCallback patchRequestCallback) {
         this.tinker = tinker;
         this.context = context;
-        this.clientAPI = TinkerClientAPI.init(context, appKey, appVersion, debug);
+        this.clientAPI = TinkerClientAPI.init(context, appKey, appVersion, channel, debug);
         this.patchRequestCallback = patchRequestCallback;
     }
 
@@ -50,11 +50,11 @@ public class TinkerServerClient {
     }
 
     public static TinkerServerClient init(Context context, Tinker tinker, String appKey, String appVersion,
-                                          Boolean debug) {
+                                          String channel, Boolean debug) {
         if (client == null) {
             synchronized (TinkerClientAPI.class) {
                 if (client == null) {
-                    client = new TinkerServerClient(context, tinker, appKey, appVersion, debug, new TinkerServerPatchRequestCallback());
+                    client = new TinkerServerClient(context, tinker, appKey, appVersion, channel, debug, new TinkerServerPatchRequestCallback());
                 }
             }
         }

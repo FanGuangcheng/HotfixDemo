@@ -9,5 +9,6 @@ package com.netease.android.patch.server.utils;
  */
 public class Constants {
     public static final String HOST_URL = "http://163.netease.com";
+    public static final String CHANNEL_DEFAULT = "all";
 
 }

@@ -62,6 +62,6 @@ public class SampleApplicationLike extends DefaultApplicationLike {
         TinkerServerManager.installTinkerServer(getApplication(), Tinker.with(getApplication()), 3,
         BuildConfig.APP_KEY, BuildConfig.VERSION_NAME, "default", BuildConfig.DEBUG);
         // 开始检查是否有补丁
-        TinkerServerManager.checkTinkerUpdate(true, null);
+        TinkerServerManager.checkTinkerUpdate(true);
     }
 }

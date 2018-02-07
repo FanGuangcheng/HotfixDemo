@@ -40,7 +40,7 @@ public class TinkerServerPatchRequestCallback extends DefaultPatchRequestCallbac
             TinkerLog.e(TAG, "beforePatchRequest, only request on the main process");
             return false;
         }
-        if (TinkerServerManager.isGooglePlayChannel()) {
+        if (TinkerServerManager.isInValidChannel()) {
             TinkerLog.e(TAG, "beforePatchRequest, google play channel, return false");
             return false;
         }

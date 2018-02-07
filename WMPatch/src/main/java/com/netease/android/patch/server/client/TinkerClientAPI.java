@@ -8,6 +8,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.netease.android.patch.app.TinkerManager;
 import com.netease.android.patch.app.callback.PatchRequestCallback;
 import com.netease.android.patch.app.utils.PreferencesManager;
 import com.netease.android.patch.server.model.DataFetcher;
@@ -37,13 +38,15 @@ public class TinkerClientAPI {
     private final String appVersion;
     private final String appKey;
     private final String host;
+    private final String channel;
     private final boolean debug;
     private final UrlConnectionUrlLoader loader;
 
-    public TinkerClientAPI(String appKey, String appVersion, String host,
+    public TinkerClientAPI(String appKey, String channel, String appVersion, String host,
                            Boolean debug, UrlConnectionUrlLoader loader, VersionUtils versionUtils) {
         this.appVersion = appVersion;
         this.appKey = appKey;
+        this.channel = channel;
         this.host = host;
         this.debug = debug;
         this.loader = loader;
@@ -51,12 +54,14 @@ public class TinkerClientAPI {
     }
 
     public static TinkerClientAPI init(Context context, String appKey, String appVersion,
+                                       String channel,
                                        Boolean debug) {
         if (clientAPI == null) {
             synchronized (TinkerClientAPI.class) {
                 if (clientAPI == null) {
                     clientAPI = new Builder()
                             .appKey(appKey)
+                            .channel(channel)
                             .appVersion(appVersion)
                             .debug(debug)
                             .versionUtils(new VersionUtils(context, appVersion))
@@ -85,13 +90,13 @@ public class TinkerClientAPI {
                 @Override
                 public void onDataReady(String data) {
                     SyncResponse response = fromJson(data);
-                    // 存取version
-                    PreferencesManager.setPatchVersion(response.version);
+
                     if (response == null) {
                         callback.onPatchSyncFail(new RuntimeException("Can't sync with version: response == null"));
                     } else {
                         TinkerLog.d(TAG, "sync response in update: " + response);
-
+                        // 存取version
+                        PreferencesManager.setPatchVersion(response.version);
                         // 下载补丁
                         downloadHotPatch(context, response, callback);
 
@@ -153,14 +158,14 @@ public class TinkerClientAPI {
 
     public void sync(final DataFetcher.DataCallback<String> callback) {
         Uri.Builder urlBuilder = Uri.parse(this.host).buildUpon();
-        if (clientAPI.debug) {
-            urlBuilder.appendPath("dev");
-        }
+//        if (clientAPI.debug) {
+//            urlBuilder.appendPath("dev");
+//        }
 
-        String url = urlBuilder.appendPath(this.appKey)
-                .appendPath(this.appVersion)
-                .appendQueryParameter("d", versionUtils.id())
-                .appendQueryParameter("v", String.valueOf(System.currentTimeMillis()))
+        String url = urlBuilder.appendPath("hotfix")
+                .appendPath(this.appKey)
+                .appendQueryParameter("version", this.appVersion)
+                .appendQueryParameter("channel", this.channel)
                 .build().toString();
 
         TinkerClientUrl tkClientUrl = new TinkerClientUrl.Builder().url(url).build();
@@ -262,12 +267,18 @@ public class TinkerClientAPI {
         private String appVersion;
         private String appKey;
         private String host;
+        private String channel;
         private Boolean debug;
         private UrlConnectionUrlLoader loader;
         private VersionUtils versionUtils;
 
         Builder host(String host) {
             this.host = host;
+            return this;
+        }
+
+        Builder channel(String channel) {
+            this.channel = channel;
             return this;
         }
 
@@ -296,10 +307,15 @@ public class TinkerClientAPI {
             return this;
         }
 
+
         void makeDefault() {
             if (TextUtils.isEmpty(host)) {
                 this.host = Constants.HOST_URL;
             }
+            if (TextUtils.isEmpty(channel)) {
+                this.channel = Constants.CHANNEL_DEFAULT;
+            }
+
             if (this.loader == null) {
                 this.loader = new UrlConnectionUrlLoader();
             }
@@ -310,7 +326,7 @@ public class TinkerClientAPI {
 
         public TinkerClientAPI build() {
             makeDefault();
-            return new TinkerClientAPI(this.appKey, this.appVersion, this.host, this.debug, this.loader, this.versionUtils);
+            return new TinkerClientAPI(this.appKey, this.channel, this.appVersion, this.host, this.debug, this.loader, this.versionUtils);
         }
     }
 }
